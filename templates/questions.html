@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/questions.css">
+  <title>CBT Assistant</title>
+</head>
+<body>
+	<video id="background-video" autoplay loop muted>
+		<source src="../static/assets/chill-rain.mp4" type="video/mp4" />
+	  </video>
+
+  <div id="app">
+    <div id="question-container"></div>
+    <div id="options-container"></div>
+  </div>
+
+  <script>
+    const flowchart = {
+    "start": {
+        "question": "What are you struggling with?",
+        "options": {
+            "A past relapse/slip event": "relapse_question",
+            "A current craving": "immediate_threat_question",
+            "Not struggling with anything in particular": "routine_checkin"
+        },
+        "is_final": false
+    },
+    "relapse_question": {
+        "question": "What triggered the relapse/slip?",
+        "options": {
+            "Stress": "avoid_trigger_llm",
+            "Boredom": "avoid_trigger_llm",
+            "Social pressure": "motivation_llm",
+            "Anger": "anger_llm",
+            "Fear": "fear_llm",
+            "Sadness": "motivation_llm",
+            "Other": "avoid_trigger_llm"
+        },
+        "is_final": false
+    },
+	"anger_llm": {
+		"is_final": true,
+		"prompt": "The user just experienced a relapse/slip due to anger. Walk through the user through a calming excercise based on CBT principles"
+	},
+    "fear_llm": {
+        "is_final": true,
+        "prompt": "The user just experienced a relapse/slip due to fear. Walk through the user through a calming excercise based on CBT principles"
+    },
+    "motivation_llm": {
+        "is_final": true,
+        "prompt": "The user just experienced a relapse/slip due to a lack of motivation. Use the principles of Cognitive Behavioral Therapy (CBT) to help the user identify their goals and develop a plan to stay motivated."
+    },
+    "avoid_trigger_llm": {
+        "is_final": true,
+        "prompt": "THe user just experienced a relapse/slip. Use the principles of Cognitive Behavioral Therapy (CBT) to help the user understand their triggers and develop a plan to avoid them in the future."
+    },
+    "craving_question": {
+        "question": "Is this a past craving or a current craving?",
+        "options": {
+            "Past craving": "past_craving_llm",
+            "Current craving": "current_craving_question"
+        },
+        "is_final": false
+    },
+    "past_craving_llm": {
+        "is_final": true,
+        "prompt": "Use the following questions to guide the CBT counseling interaction: 1) what happened before the craving? 2) do you know what triggered these cravings? 3) when were you first aware to the desire or urge to use? 4) how did/do you feel? 5) what happened afterward? 6) Was it easier or harder than expected?"
+    },
+
+    "immediate_threat_question": {
+        "question": "Do you feel like you are at immediate risk of harm or relapse?",
+        "options": {
+            "Yes": "high_risk_intervention",
+            "No": "current_craving_question"
+        },
+        "is_final": false
+    },
+    "high_risk_intervention": {
+        "is_final": true,
+        "question": "Please exit the app and 1) call 911 for emergencies; 2) call the crisis hotlien at 988; or 3) reach out to the nearest mental health professional"
+    },
+    
+    "current_craving_question": {
+        "question": "What coping skill would you like to use to manage your current craving?",
+        "options": {
+            "Cognitive restructuring": "cognitive_restructuring_llm",
+            "Mindfulness": "mindfulness_llm",
+            "Distress tolerance": "distress_tolerance_llm",
+            "Other/I'm not sure:": "current_craving_llm"
+        },    
+        "is_final": false
+    },
+    "cognitive_restructuring_llm": {
+        "is_final": true,
+        "prompt": "Guide the user through identifying distorted thinking, and restructuring those thoughts with more balanced or realistic alternatives."
+    },
+    "mindfulness_llm": {
+        "is_final": true,
+        "prompt": "Guide the user through a mindfulness exercise to help them manage their current craving."
+    },
+    "distress_tolerance_llm": {
+        "is_final": true,
+        "prompt": "Guide the user through a distress tolerance exercise to help them manage their current craving."
+    },
+    "current_craving_llm": {
+        "is_final": true,
+        "prompt": "First figure out what the user is struggling with, then use CBT counseling techniques (urge surfing, preventative coping measures, etc.)  based on the user's repsonses to help them manage/avoid their current craving."
+    },
+
+    "routine_checkin": {
+        "question": "Let's check in on your goals. Have you made any progress toward the goals we discussed last time?",
+        "options": {
+            "Yes": "positive_reinforcement",
+            "No": "barriers_llm"
+        },
+        "is_final": false
+    },
+    "positive_reinforcement": {
+        "is_final": true,
+        "prompt": "Celebrate progress with the user and reinforce their motivation to continue making positive steps."
+    },
+    "barriers_llm": {
+        "is_final": true,
+        "prompt": "Explore the barriers the user is facing and help them develop a new plan using CBT strategies."
+    }
+
+};
+
+    let currentNode = 'start';
+	
+    // Render the current question and options
+    function renderQuestion(node) {
+      const questionContainer = document.getElementById('question-container');
+      const optionsContainer = document.getElementById('options-container');
+
+      // Clear previous content
+      questionContainer.innerHTML = '';
+      optionsContainer.innerHTML = '';
+
+      // Get the current node data
+      const currentData = flowchart[node];
+
+      // Display the question
+      const questionElement = document.createElement('h2');
+      questionElement.innerText = currentData.question;
+      questionContainer.appendChild(questionElement);
+
+      // Check if it's a final node
+      if (currentData.is_final) {
+        // Redirect to the chat page with the final prompt
+        redirectToChat(currentData.prompt);
+      } else {
+        // Render the options as buttons
+        for (const option in currentData.options) {
+          const button = document.createElement('button');
+          button.innerText = option;
+          button.onclick = () => {
+            currentNode = currentData.options[option];
+            renderQuestion(currentNode);  // Move to the next question
+          };
+          optionsContainer.appendChild(button);
+        }
+      }
+    }
+
+    // Function to redirect to the chat page
+    function redirectToChat(prompt) {
+      const url = `/chat?prompt=${encodeURIComponent(prompt)}`;
+      window.location.href = url;  // Redirect to the chat page
+    }
+
+    // Start by rendering the first question
+    renderQuestion(currentNode);
+  </script>
+
+</body>
+</html>

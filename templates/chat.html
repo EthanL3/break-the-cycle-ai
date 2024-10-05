@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/chat.css">
+  <title>CBT Chat Assistant</title>
+</head>
+<body>
+  <video id="background-video" autoplay loop muted>
+    <source src="../static/assets/chill-rain.mp4" type="video/mp4" />
+  </video>
+  <div id="chat-app">
+    <div class="chat-container">
+      <div id="chat-log" class="chat-log">
+        
+      </div>
+    </div>
+    <div class="input-container">
+      <input type="text" id="user-input" placeholder="Type your message..." /><br>
+      <button id="send-btn">Send</button>
+    </div>
+    <p id="patient-msg">Please be patient while the message is loaded. Please remember, while I can offer support, I'm not a replacement for a licensed therapist or medical professional.</p>
+  </div>
+
+
+  <script>
+    let messages = [
+      {'role': 'system', 'content': "You are a therapist AI named Dr. Nemo. Help guide the user with cognitive behavioral therapy techniques. Be as concise as possible, keeping responses to two-three sentences."},
+      {'role': 'user', 'content': new URLSearchParams(window.location.search).get('prompt')}
+    ];
+
+    const chatLog = document.getElementById('chat-log');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function appendMessage(content, role) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message', role === 'user' ? 'user-message' : 'ai-message');
+      messageElement.innerHTML = `<p>${content}</p>`;
+      chatLog.appendChild(messageElement);
+      chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to bottom
+    }
+
+    // const messageElement = document.createElement('div');
+    // messageElement.classList.add('message', 'ai-message');
+    // const content = "Hello! I'm Dr. Nemo, your AI therapist. I'm here to guide you through cognitive behavioral therapy (CBT) techniques and help you develop healthier thinking patterns. Please remember, while I can offer support, I'm not a replacement for a licensed therapist or medical professional.";
+    // messageElement.innerHTML = `<p>${content}</p>`;
+    // chatLog.appendChild(messageElement);
+    // chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to bottom
+
+
+    async function sendMessage() {
+      const userMessage = userInput.value;
+      if (!userMessage) return;
+
+      // Add user message to the messages log
+      messages.push({'role': 'user', 'content': userMessage});
+      appendMessage(userMessage, 'user');
+
+      // Clear input field
+      document.getElementById('user-input').value = '';
+
+      // Send the messages to the server (Flask backend)
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages })
+      });
+      const data = await response.json();
+
+      // Get AI response
+      const aiMessage = data.message;
+      messages.push({'role': 'assistant', 'content': aiMessage});
+      appendMessage(aiMessage, 'ai');
+
+      
+    }
+
+    sendBtn.onclick = sendMessage;
+
+    async function initialLoad() {
+        // displayMessage('Dr. Nemo', 'Hello! I\'m Dr. Nemo, your therapist AI. I am here to help support you with cognitive behavioral therapy techniques. Please note this is not a substitute for a real therapist or doctor.');
+        // Send the messages to the server (Flask backend)
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages })
+      });
+      const data = await response.json();
+
+      // Get AI response
+      const aiMessage = data.message;
+      messages.push({'role': 'assistant', 'content': aiMessage});
+      appendMessage(aiMessage, 'ai');
+
+      // Clear input field
+    //   userInput.value = '';
+
+    };
+    window.onload = function(){initialLoad();};
+  </script>
+
+</body>
+</html>

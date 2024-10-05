@@ -1,0 +1,74 @@
+{
+    "start": {
+        "question": "What are you struggling with?",
+        "options": {
+            "A past relapse/slip event": "relapse_question",
+            "A current craving": "craving_question"
+        },
+        "is_final": false
+    },
+    "relapse_question": {
+        "question": "What triggered the relapse/slip?",
+        "options": {
+            "Stress": "avoid_trigger_llm",
+            "Boredom": "avoid_trigger_llm",
+            "Social pressure": "motivation_llm",
+            "Anger": "calm_llm",
+            "Fear": "calm_llm",
+            "Sadness": "motivation_llm",
+            "Other": "avoid_trigger_llm"
+        },
+        "is_final": false
+    },
+    "calm_llm": {
+        "is_final": true,
+        "prompt": "Walk through the user through a calming excercise based on CBT principles"
+    },
+    "motivation_llm": {
+        "is_final": true,
+        "prompt": "Walk through the user through a motivational excercise based on CBT principles"
+    },
+    "avoid_trigger_llm": {
+        "is_final": true,
+        "prompt": "Based upon the user's responses, use the principles of Cognitive Behavioral Therapy (CBT) to help the user understand their triggers and develop a plan to avoid them in the future."
+    },
+    "craving_question": {
+        "question": "Is this a past craving or a current craving?",
+        "options": {
+            "Past craving": "past_craving_llm",
+            "Current craving": "current_craving_question"
+        },
+        "is_final": false
+    },
+    "past_craving_llm": {
+        "is_final": true,
+        "prompt": "Use the following questions to guide the CBT counseling interaction: 1) what happened before the craving? 2) do you know what triggered these cravings? 3) when were you first aware to the desire or urge to use? 4) how did/do you feel? 5) what happened afterward? 6) Was it easier or harder than expected?"
+    },
+
+    "current_craving_question": {
+        "question": "What coping skill would you like to use to manage your current craving?",
+        "options": {
+            "Cognitive restructuring": "cognitive_restructuring_llm",
+            "Mindfulness": "mindfulness_llm",
+            "Distress tolerance": "distress_tolerance_llm",
+            "Other/I'm not sure:": "current_craving_llm"
+        },    
+        "is_final": false
+    },
+    "cognitive_restructuring_llm": {
+        "is_final": true,
+        "prompt": "Guide the user through identifying distorted thinking, and restructuring those thoughts with more balanced or realistic alternatives."
+    },
+    "mindfulness_llm": {
+        "is_final": true,
+        "prompt": "Guide the user through a mindfulness exercise to help them manage their current craving."
+    },
+    "distress_tolerance_llm": {
+        "is_final": true,
+        "prompt": "Guide the user through a distress tolerance exercise to help them manage their current craving."
+    },
+    "current_craving_llm": {
+        "is_final": true,
+        "prompt": "First figure out what the user is struggling with, then use CBT counseling techniques (urge surfing, preventative coping measures, etc.)  based on the user's repsonses to help them manage/avoid their current craving."
+    }
+}

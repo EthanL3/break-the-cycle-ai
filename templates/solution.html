@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Therapy Solution" />
+		<title>Therapy Solution</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	</head>
+	<body>
+		<div class="solution-section">
+			<h1>Your Therapy Solution</h1>
+			<p>{{ solution }}</p>
+			<h3>Summary of Your Responses</h3>
+			<ul>
+				{% for question, response in responses.items() %}
+					<li>{{ question }}: {{ response }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</body>
+</html>

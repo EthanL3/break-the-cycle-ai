@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<title>Meditation & Mindfulness for Well-being</title>
+		<link rel="stylesheet" href="../static/css/relax.css" />
+		<link rel="icon" href="../static/assets/images/cloud.png" type="image/x-icon" />
+		<link rel="canonical" href="https://www.mindfulness-and-wellbeing.yuricunha.com/" />
+
+		<!-- Google tag (gtag.js) -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-YMBMJST8GR"
+		></script>
+
+		<!-- Include external JavaScript file -->
+		<script defer src="../static/script.js"></script>
+	</head>
+	<body>
+		<video id="background-video" autoplay loop muted>
+			<source src="../static/assets/chill-rain.mp4" type="video/mp4" />
+		</video>
+		<div class="logo-container">
+			<a href="{{ url_for('home') }}">
+				<img
+					id="logo"
+					src="{{ url_for('static', filename='assets/images/cloud.png') }}"
+					alt="Logo"
+				/>
+			</a>
+		</div>
+		<div id="meditation">
+			<h1>What is Meditation?</h1>
+			<p>
+				Meditation is a practice that involves focusing your mind on a particular object, thought, or activity to achieve mental clarity and emotional calm. 
+				By training your mind to be more present, you can reduce stress, anxiety, and even symptoms related to addiction.
+			</p>
+			<p>
+				Mindfulness, a form of meditation, focuses on being fully present in the moment without judgment. It's a powerful tool that helps you become more aware of your thoughts, which can be essential in overcoming addictive patterns.
+			</p>
+		</div>
+		<div id="wellbeing">
+			<h1>Meditation for Well-being & Addiction Recovery</h1>
+			<p>
+				Addiction often stems from a need to escape difficult emotions or situations. Meditation and mindfulness teach us to face these emotions with compassion and understanding, which is vital in the recovery process.
+			</p>
+			<p>
+				Studies show that practicing meditation regularly can help individuals overcome addictions, manage cravings, and improve their overall sense of well-being.
+				By developing a mindful awareness, you can better navigate life's challenges without falling back on harmful habits.
+			</p>
+		</div>
+		<div class="centered">
+			<h1>Embrace Mindfulness. Find Peace. Live Well.</h1>
+			<audio autoplay loop>
+				<source src="../static/assets/rain-chill.mp3" />
+			</audio>
+			<div class="button-container">
+				<a href="https://my.clevelandclinic.org/health/articles/17906-meditation">
+					<button class="btn-2">Learn More About Meditation</button>
+				</a>
+				<a href="https://www.mcleanhospital.org/essential/addiction">
+					<button class="btn-2">Well-being & Addiction</button>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>

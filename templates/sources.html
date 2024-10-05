@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<title>Meditation & Mindfulness for Well-being</title>
+		<link rel="stylesheet" href="../static/css/relax.css" />
+		<link rel="icon" href="../static/assets/images/cloud.png" type="image/x-icon" />
+		<link rel="canonical" href="https://www.mindfulness-and-wellbeing.yuricunha.com/" />
+
+		<!-- Google tag (gtag.js) -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-YMBMJST8GR"
+		></script>
+
+		<!-- Include external JavaScript file -->
+		<script defer src="../static/script.js"></script>
+	</head>
+	<body>
+		<video id="background-video" autoplay loop muted>
+			<source src="../static/assets/chill-rain.mp4" type="video/mp4" />
+		</video>
+		<div class="logo-container">
+			<a href="{{ url_for('home') }}">
+				<img
+					id="logo"
+					src="{{ url_for('static', filename='assets/images/cloud.png') }}"
+					alt="Logo"
+				/>
+			</a>
+		</div>
+		<div id="references" style="padding: 2rem; text-align: center;">
+			<h1>References on Cognitive Behavioral Therapy</h1>
+			<h2>Below are the sources used in the development of this application:</h2>
+            <ul style="list-style-type: none; padding: 0;">
+				<li>
+					<a href="https://api.taylorfrancis.com/content/books/mono/download?identifierName=doi&identifierValue=10.4324/9780203850428&type=googlepdf" target="_blank">
+						1. A Cognitive Behavioural Therapy Programme for Problem Gambling
+					</a>
+				</li>
+				<li>
+					<a href="https://www.mirecc.va.gov/visn16/docs/therapists_guide_to_brief_cbtmanual.pdf" target="_blank">
+						2. A Provider’s Guide to Brief Cognitive Behavioral Therapy
+					</a>
+				</li>
+				<li>
+					<a href="https://www.ojp.gov/pdffiles1/Photocopy/180294NCJRS.pdf" target="_blank">
+						3. A Cognitive-Behavioral Approach: Treating Cocaine Addiction
+					</a>
+				</li>
+				<li>
+					<a href="https://www.healthline.com/health/emotion-wheel#plutchik-wheel" target="_blank">
+						4. Plutchik Wheel of Emotions
+					</a>
+				</li>
+				<li>
+					<a href="https://www.healthline.com/health/cognitive-behavioral-therapy#techniques" target="_blank">
+						5. Cognitive Behavioral Therapy: What Is It and How Does It Work?
+					</a>
+				</li>
+				<li>
+					<a href="https://www.amazon.com/Doing-CBT-Comprehensive-Behaviors-Thoughts/dp/1462527078" target="_blank">
+						6. Doing CBT: A Comprehensive Guide to Working with Behaviors, Thoughts, and Emotions
+					</a>
+				</li>
+                <li>
+                    <a href="https://my.clevelandclinic.org/health/articles/17906-meditation" target="_blank">
+                        7. Learn More About Meditation
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.mcleanhospital.org/essential/addiction" target="_blank">
+                        8. Well-being & Addiction
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/isyuricunha/rain-for-relax?tab=readme-ov-file" target="_blank">
+                        9. Yuri Cunha
+                    </a>
+                </li>
+			</ul>
+		</div>
+	</body>
+</html>
